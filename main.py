@@ -1,8 +1,21 @@
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.memcached import MemcachedBackend
+from fastapi_cache.decorator import cache
 
 from api.auxos import AuxsolClient
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    FastAPICache.init(MemcachedBackend, prefix="fastapi-cache")
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/")
@@ -11,6 +24,7 @@ async def status():
     return {"status": "healthy"}
 
 
+@cache(expire=5)
 @app.get("/api/analytics/")
 async def get_analytics():
     """
@@ -29,6 +43,7 @@ async def get_analytics():
         raise HTTPException({"error": str(e)}, status_code=500)
 
 
+@cache(expire=5)
 @app.get("/api/analytics/inverter")
 async def get_inverter_report():
     """
@@ -46,6 +61,7 @@ async def get_inverter_report():
         raise HTTPException({"error": str(e)}, status_code=500)
 
 
+@cache(expire=5)
 @app.get("/api/inverter")
 def get_inverter():
     """
