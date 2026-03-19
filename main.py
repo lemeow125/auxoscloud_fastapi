@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+
 from api.auxos import AuxsolClient
 
 app = FastAPI()

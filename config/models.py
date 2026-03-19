@@ -2,11 +2,7 @@
 Common model schemas
 """
 
-from pydantic import (
-    BaseModel,
-    Field,
-    StrictStr,
-)
+from pydantic import BaseModel, Field, StrictStr
 
 
 class Config(BaseModel):
