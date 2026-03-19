@@ -63,6 +63,5 @@ when:
 
 depends_on:
   - build
-  - test
 
 skip_clone: true
