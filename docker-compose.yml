@@ -1,0 +1,12 @@
+services:
+  # API
+  api:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: git.06222001.xyz/keannu125/auxsolfastapi:latest
+    command: fastapi dev --host 0.0.0.0
+    restart: always
+    ports:
+      - "${BACKEND_PORT}:8000"

@@ -1,0 +1,15 @@
+[project]
+name = "auxoscloud-fastapi"
+version = "0.1.0"
+description = "A simple barebones API to quickly expose data on your Auxos inverter"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dotenv>=0.9.9",
+    "faker>=40.11.0",
+    "fastapi[standard]>=0.135.1",
+    "pydantic>=2.12.5",
+    "pydantic-extra-types>=2.11.1",
+    "requests>=2.32.5",
+    "tenacity>=9.1.4",
+]
