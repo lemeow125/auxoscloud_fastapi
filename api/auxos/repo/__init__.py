@@ -25,7 +25,7 @@ class Auth:
                     "password": self.PASSWORD,
                     "lang": "en-US",
                 },
-                timeout=10
+                timeout=10,
             )
 
             res = res.json()
@@ -87,7 +87,9 @@ class Inverter:
 
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, max=15))
     def get_inverter(self):
-        url = f"{self.BASE_URL}/archive/inverter/getPlantByInverterSN/{self.INVERTER_SN}"
+        url = (
+            f"{self.BASE_URL}/archive/inverter/getPlantByInverterSN/{self.INVERTER_SN}"
+        )
         try:
             response = self.session.get(url, timeout=15)
             return response.json()

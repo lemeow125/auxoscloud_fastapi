@@ -37,22 +37,21 @@ class AuxsolClient:
             session=self.session,
             base_url=self.BASE_URL,
             username=self.USERNAME,
-            password=self.PASSWORD
-
+            password=self.PASSWORD,
         )
         self.auth.login()
         self.analytics = Analytics(
             session=self.session,
             base_url=self.BASE_URL,
             inverter_id=self.INVERTER_ID,
-            inverter_sn=self.INVERTER_SN
+            inverter_sn=self.INVERTER_SN,
         )
 
         self.inverters = Inverter(
             session=self.session,
             base_url=self.BASE_URL,
             inverter_id=self.INVERTER_ID,
-            inverter_sn=self.INVERTER_SN
+            inverter_sn=self.INVERTER_SN,
         )
         return self
 

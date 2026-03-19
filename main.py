@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from api.auxos import AuxsolClient
+
 app = FastAPI()
 
 
@@ -50,8 +51,7 @@ def get_inverter():
     Endpoint to get latest info on inverter
     """
     try:
-        with AuxsolClient(
-        ) as client:
+        with AuxsolClient() as client:
             res = client.inverters.get_inverter()
             if res and res.get("code") == "AWX-0000":
                 data = res.get("data", {})
