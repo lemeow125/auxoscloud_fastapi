@@ -1,6 +1,8 @@
 import requests
 
-from api.auxos.repo import Analytics, Auth, Inverter
+from api.auxos.repo.analytics import Analytics
+from api.auxos.repo.auth import Auth
+from api.auxos.repo.inverter import Inverter
 from config import Config
 
 config = Config().get_config()

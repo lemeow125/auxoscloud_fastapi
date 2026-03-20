@@ -77,3 +77,21 @@ def get_inverter():
             raise Exception(f"Request Failed: {res}")
     except Exception as e:
         raise HTTPException({"error": str(e)}, status_code=500)
+
+
+@cache(expire=5)
+@app.get("/api/inverter/detail")
+def get_inverter_details():
+    """
+    Endpoint to get latest details on inverter
+    """
+    try:
+        with AuxsolClient() as client:
+            res = client.inverters.get_inverter()
+            if res and res.get("code") == "AWX-0000":
+                data = res.get("data", {})
+
+                return {"data": data}
+            raise Exception(f"Request Failed: {res}")
+    except Exception as e:
+        raise HTTPException({"error": str(e)}, status_code=500)
