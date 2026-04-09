@@ -6,7 +6,13 @@ services:
       context: .
       dockerfile: Dockerfile
     image: git.06222001.xyz/keannu125/auxsolfastapi:latest
-    command: fastapi dev --host 0.0.0.0
+    command: fastapi run --host 0.0.0.0
     restart: always
     ports:
       - "${BACKEND_PORT}:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
