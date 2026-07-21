@@ -14,7 +14,7 @@ class Auth:
         self.USERNAME = kwargs.get("username")
         self.PASSWORD = kwargs.get("password")
 
-    @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, max=15))
+    @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
     def login(self):
         try:
             url = f"{self.BASE_URL}/auth/login"

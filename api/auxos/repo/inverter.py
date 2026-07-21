@@ -14,7 +14,7 @@ class Inverter:
         self.INVERTER_ID = kwargs.get("inverter_id")
         self.INVERTER_SN = kwargs.get("inverter_sn")
 
-    @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=2, max=15))
+    @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
     def get_inverter(self):
         url = (
             f"{self.BASE_URL}/archive/inverter/getPlantByInverterSN/{self.INVERTER_SN}"
@@ -26,6 +26,7 @@ class Inverter:
             logger.error(e)
             raise
 
+    @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
     def get_inverter_details(self):
         url = f"{self.BASE_URL}/archive/plant/findPlantDetail/{self.INVERTER_SN}"
         try:
