@@ -9,7 +9,7 @@ class Auth:
     """Auth Actions"""
 
     def __init__(self, **kwargs):
-        self.session = kwargs.get("session")
+        self.SESSION = kwargs.get("session")
         self.BASE_URL = kwargs.get("base_url")
         self.USERNAME = kwargs.get("username")
         self.PASSWORD = kwargs.get("password")
@@ -19,7 +19,7 @@ class Auth:
         try:
             url = f"{self.BASE_URL}/auth/login"
 
-            res = self.session.post(
+            res = self.SESSION.post(
                 url,
                 json={
                     "account": self.USERNAME,
@@ -33,7 +33,7 @@ class Auth:
             if res.get("code") == "AWX-0000":
                 token = res.get("data", {}).get("access_token")
                 if token:
-                    self.session.headers.update(
+                    self.SESSION.headers.update(
                         {
                             "Authorization": f"Bearer {token}",
                             "token": token,

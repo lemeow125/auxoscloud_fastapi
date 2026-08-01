@@ -5,8 +5,8 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 logger = logging.getLogger(__name__)
 
 
-class Inverter:
-    """Inverter Actions"""
+class Battery:
+    """Battery Actions"""
 
     def __init__(self, **kwargs):
         self.SESSION = kwargs.get("session")
@@ -15,20 +15,8 @@ class Inverter:
         self.INVERTER_SN = kwargs.get("inverter_sn")
 
     @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
-    def get_inverter(self):
-        url = (
-            f"{self.BASE_URL}/archive/inverter/getPlantByInverterSN/{self.INVERTER_SN}"
-        )
-        try:
-            response = self.SESSION.get(url, timeout=15)
-            return response.json()
-        except Exception as e:
-            logger.error(e)
-            raise
-
-    @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
-    def get_inverter_details(self):
-        url = f"{self.BASE_URL}/archive/plant/findPlantDetail/{self.INVERTER_SN}"
+    def get_battery_details(self):
+        url = f"{self.BASE_URL}/analysis/inverterReport/findInverterRealTimeInfoBySnV1?sn={self.INVERTER_SN}"
         try:
             response = self.SESSION.get(url, timeout=15)
             return response.json()
