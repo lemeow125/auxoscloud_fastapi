@@ -19,7 +19,7 @@ class Battery:
         url = f"{self.BASE_URL}/analysis/inverterReport/findInverterRealTimeInfoBySnV1?sn={self.INVERTER_SN}"
         try:
             response = self.SESSION.get(url, timeout=15)
-            return response.json()
+            return response.json().get("batteryData")
         except Exception as e:
             logger.error(e)
             raise
