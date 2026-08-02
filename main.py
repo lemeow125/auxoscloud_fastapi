@@ -40,7 +40,7 @@ async def get_analytics():
                 return {"data": energy}
             raise Exception(f"Request Failed: {res}")
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
 @cache(expire=5)
@@ -58,7 +58,7 @@ async def get_inverter_report():
                 return {"data": data}
             raise Exception(f"Request Failed: {res}")
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
 @cache(expire=5)
@@ -76,7 +76,7 @@ def get_inverter():
                 return {"data": data}
             raise Exception(f"Request Failed: {res}")
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
 @cache(expire=5)
@@ -94,7 +94,7 @@ def get_inverter_details():
                 return {"data": data}
             raise Exception(f"Request Failed: {res}")
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
 @cache(expire=5)
@@ -112,4 +112,4 @@ def get_battery():
                 return {"data": data}
             raise Exception(f"Request Failed: {res}")
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
