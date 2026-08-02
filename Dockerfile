@@ -36,3 +36,5 @@ COPY . /app/
 
 # Expose default port
 EXPOSE 8000
+
+CMD ["fastapi", "run", "--host", "0.0.0.0"]
