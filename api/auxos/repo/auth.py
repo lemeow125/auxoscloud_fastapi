@@ -1,6 +1,6 @@
 import logging
 
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 from . import Repo
 
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class Auth(Repo):
     """Auth Actions"""
 
-    @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(1), reraise=True)
     def login(self):
         try:
             url = f"{self.CONFIG.AUXSOL_BASE_URL}/auth/login"
@@ -22,7 +22,7 @@ class Auth(Repo):
                     "password": self.CONFIG.AUXSOL_AUTH_PASSWORD,
                     "lang": "en-US",
                 },
-                timeout=10,
+                timeout=3,
             )
 
             self._validate(response)

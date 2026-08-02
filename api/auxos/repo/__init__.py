@@ -9,5 +9,10 @@ class Repo:
 
     def _validate(self, res):
         """Validate response code success"""
-        if not res or not res.json().get("code") == "AWX-0000":
+        if not res:
+            raise Exception(f"Request Failed: {str(res)}")
+        try:
+            if res.json().get("code") != "AWX-0000":
+                raise Exception(f"Request Failed: {str(res)}")
+        except Exception:
             raise Exception(f"Request Failed: {str(res)}")
