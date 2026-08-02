@@ -2,10 +2,12 @@ import logging
 
 from tenacity import retry, stop_after_attempt, wait_exponential
 
+from . import Repo
+
 logger = logging.getLogger(__name__)
 
 
-class Inverter:
+class Inverter(Repo):
     """Inverter Actions"""
 
     def __init__(self, CONFIG):
