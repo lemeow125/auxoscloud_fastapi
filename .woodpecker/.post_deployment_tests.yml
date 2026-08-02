@@ -1,0 +1,15 @@
+steps:
+  - name: run post-deployment tests
+    image: ghcr.io/usebruno/cli:3.5.1-alpine
+    commands:
+      - cd .bruno
+      - bru run --env dev
+      
+when:
+  - branch: master
+    event:
+      - push
+      - manual
+
+depends_on:
+  - deploy

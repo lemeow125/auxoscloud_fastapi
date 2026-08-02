@@ -1,0 +1,52 @@
+meta {
+  name: Get Analytics
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{BASE_URL}}/api/analytics
+  body: json
+  auth: inherit
+}
+
+tests {
+  const response = res.getBody();
+  const data = response.data;
+
+  // Top-level data keys
+  test("data should have all expected keys", function () {
+    expect(data).to.have.all.keys('deptId', 'energyData', 'capacity', 'moneyUnit');
+  });
+
+  // Type checks for top-level fields
+  test("data field types are correct", function () {
+    expect(data.deptId).to.be.null;
+    expect(data.energyData).to.be.an('object');
+    expect(data.capacity).to.be.a('number');
+    expect(data.moneyUnit).to.be.a('string');
+  });
+
+  // energyData keys
+  const ed = data.energyData;
+  test("energyData should have all expected keys", function () {
+    expect(ed).to.have.all.keys(
+      'flh', 'power', 'y', 'earn', 'yt', 'earnT',
+      'ym', 'earnM', 'yy', 'earnY', 'co2', 'treePlants',
+      'stringNum', 'pvList',
+      'acCouplingPower', 'acCouplingYieldDay', 'acCouplingYieldMonth',
+      'acCouplingYieldYear', 'acCouplingYieldTotal',
+      'multiInverterYieldDay', 'multiInverterYieldMonth',
+      'multiInverterYieldYear', 'multiInverterYieldTotal',
+      'multiInverterYieldPower'
+    );
+  });
+
+  // Type checks for energyData fields (only numeric fields & nulls)
+  test("energyData field types are correct", function () {
+    // numbers
+    const numberFields = ['power', 'y', 'earn', 'yt', 'earnT', 'ym', 'earnM',
+                          'yy', 'earnY', 'co2', 'treePlants'];
+    numberFields.forEach(f => expect(ed[f]).to.be.a('number'));
+  });
+}

@@ -1,0 +1,29 @@
+meta {
+  name: Get Battery
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{BASE_URL}}/api/battery
+  body: json
+  auth: inherit
+}
+
+tests {
+  const response = res.getBody();
+  const batteryData = response.data;
+
+  test("battery data should have all expected keys", function () {
+    expect(batteryData).to.have.all.keys([
+      'bcEn', 'bcEnM', 'bcEnY', 'bcEnT', 'bdcEn', 'bdcEnM', 'bdcEnY',
+      'bdcEnT', 'batteryPower', 'batterySoc', 'batterySoh', 'voltage',
+      'current', 'capacity', 'batteryPower1', 'voltage1', 'current1',
+      'batterySoc1', 'batterySoh1', 'batteryPower2', 'batterySoc2',
+      'batterySoh2', 'voltage2', 'current2', 'batteryType',
+      'maxChargingCurrent', 'dischargeCurrent', 'maxChargingCurrent1',
+      'dischargeCurrent1', 'maxChargingCurrent2', 'dischargeCurrent2',
+      'batteryConnectType', 'lowVoltageStore'
+    ]);
+  });
+}

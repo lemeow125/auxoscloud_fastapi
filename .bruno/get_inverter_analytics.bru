@@ -1,0 +1,149 @@
+meta {
+  name: Get Inverter Analytics
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{BASE_URL}}/api/analytics/inverter
+  body: json
+  auth: inherit
+}
+
+tests {
+  const response = res.getBody();
+  const data = response.data;
+
+  // Top-level data fields
+  test("data should have all expected keys", function () {
+    expect(data).to.have.all.keys([
+      'id', 'sn', 'dt', 'deptId', 'history', 'currency', 'moneyType',
+      'price', 'priceType', 'timeUsePrice', 'phase', 'ratedPower', 'type',
+      'status', 'lastDay', 'lastCommTime', 'lastDeviceCommTime',
+      'energyData', 'batteryData', 'gridData', 'loadData', 'version',
+      'generatorDate', 'bmsData', 'alarmCurrent', 'otherData',
+      'dynamicPrice', 'dynamicBuyPrice', 'inverterMesData', 'hemsEn',
+      'timeZone', 'alarmCurrentList', 'isKSD320', 'alarm', 'pid',
+      'default_PHASE'
+    ]);
+  });
+
+  // timeUsePrice
+  test("timeUsePrice should have all expected keys", function () {
+    expect(data.timeUsePrice).to.have.all.keys(['price', 'buyPrice']);
+  });
+
+  // energyData
+  test("energyData should have all expected keys", function () {
+    expect(data.energyData).to.have.all.keys([
+      'flh', 'power', 'y', 'earn', 'yt', 'earnT', 'ym', 'earnM', 'yy',
+      'earnY', 'co2', 'treePlants', 'stringNum', 'pvList',
+      'acCouplingPower', 'acCouplingYieldDay', 'acCouplingYieldMonth',
+      'acCouplingYieldYear', 'acCouplingYieldTotal',
+      'multiInverterYieldDay', 'multiInverterYieldMonth',
+      'multiInverterYieldYear', 'multiInverterYieldTotal',
+      'multiInverterYieldPower'
+    ]);
+  });
+
+  // batteryData
+  test("batteryData should have all expected keys", function () {
+    expect(data.batteryData).to.have.all.keys([
+      'bcEn', 'bcEnM', 'bcEnY', 'bcEnT', 'bdcEn', 'bdcEnM', 'bdcEnY',
+      'bdcEnT', 'batteryPower', 'batterySoc', 'batterySoh', 'voltage',
+      'current', 'capacity', 'batteryPower1', 'voltage1', 'current1',
+      'batterySoc1', 'batterySoh1', 'batteryPower2', 'batterySoc2',
+      'batterySoh2', 'voltage2', 'current2', 'batteryType',
+      'maxChargingCurrent', 'dischargeCurrent', 'maxChargingCurrent1',
+      'dischargeCurrent1', 'maxChargingCurrent2', 'dischargeCurrent2',
+      'batteryConnectType', 'lowVoltageStore'
+    ]);
+  });
+
+  // gridData
+  test("gridData should have all expected keys", function () {
+    expect(data.gridData).to.have.all.keys([
+      'gridPower', 'hostGridPower', 'hostSellEnT', 'hostSellEnTYear',
+      'hostSellEnTMonth', 'hostSellEnTDay', 'hostBuyEnT', 'hostBuyEnTYear',
+      'hostBuyEnTMonth', 'hostBuyEnTDay', 'buyEn', 'buyEnM', 'buyEnY',
+      'buyEnT', 'sellEn', 'sellEnM', 'sellEnY', 'sellEnT', 'acList'
+    ]);
+  });
+
+  // loadData
+  test("loadData should have all expected keys", function () {
+    expect(data.loadData).to.have.all.keys([
+      'en', 'enM', 'enY', 'enT', 'f', 'loadRateTotal', 'acList',
+      'loadPower1List', 'meterFlag', 'meter2Flag', 'originalMeterFlag',
+      'multiInverterFlag', 'loadPower', 'loadPower1', 'loadPower2',
+      'backupLoadDayEnergy', 'backupLoadMonthEnergy', 'backupLoadYearEnergy',
+      'backupLoadTotalEnergy', 'gridLoadDayEnergy', 'gridLoadMonthEnergy',
+      'gridLoadYearEnergy', 'gridLoadTotalEnergy'
+    ]);
+  });
+
+  // version
+  test("version should have all expected keys", function () {
+    expect(data.version).to.have.all.keys([
+      'armVersion', 'armTwoVersion', 'dspVersion', 'slaveDspVersion',
+      'afciVersion', 'bmsVersion', 'afciModelVersion'
+    ]);
+  });
+
+  // generatorDate
+  test("generatorDate should have all expected keys", function () {
+    expect(data.generatorDate).to.have.all.keys([
+      'generatorStatus', 'generatorRPhaseVoltage', 'generatorSPhaseVoltage',
+      'generatorTPhaseVoltage', 'generatorRPhaseCurrent',
+      'generatorSPhaseCurrent', 'generatorTPhaseCurrent',
+      'generatorRPhasePower', 'generatorSPhasePower', 'generatorTPhasePower',
+      'generatorFrequency', 'generatorPower', 'aiOutPutStatus',
+      'aiOutPutFrequency', 'aiList', 'generatorDayEnergy',
+      'generatorMonthEnergy', 'generatorYearEnergy', 'generatorTotalEnergy',
+      'smartLoadDayEnergy', 'smartLoadMonthEnergy', 'smartLoadYearEnergy',
+      'smartLoadTotalEnergy'
+    ]);
+  });
+
+  // bmsData
+  test("bmsData should have all expected keys", function () {
+    expect(data.bmsData).to.have.all.keys([
+      'bmsVoltage', 'bmsCurrent', 'bmsSoc', 'bmsSoh', 'bmsChargeVoltage',
+      'bmsChargeStopVoltage', 'bmsChargeAdviceCurrent',
+      'bmsDischargeAdviceCurrent', 'bmsTemperature', 'bmsVersion',
+      'bmsVoltage1', 'bmsCurrent1', 'bmsSoc1', 'bmsSoh1',
+      'bmsChargeVoltage1', 'bmsChargeStopVoltage1',
+      'bmsChargeAdviceCurrent1', 'bmsDischargeAdviceCurrent1',
+      'bmsTemperature1', 'bmsVersion1', 'bmsVoltage2', 'bmsCurrent2',
+      'bmsSoc2', 'bmsSoh2', 'bmsChargeVoltage2', 'bmsChargeStopVoltage2',
+      'bmsChargeAdviceCurrent2', 'bmsDischargeAdviceCurrent2',
+      'bmsTemperature2', 'bmsVersion2', 'bmsFlagOriginal', 'bmsFlag'
+    ]);
+  });
+
+  // alarmCurrent
+  test("alarmCurrent should have all expected keys", function () {
+    expect(data.alarmCurrent).to.have.all.keys([
+      'mainFaultCode', 'faultCode', 'mainAlarmCode', 'alarmCode',
+      'lastAlarm', 'alarmCount', 'alarmCode0', 'alarmCode1',
+      'faultCode0', 'faultCode1', 'faultCode2', 'faultCode3'
+    ]);
+  });
+
+  // otherData
+  test("otherData should have all expected keys", function () {
+    expect(data.otherData).to.have.all.keys([
+      'temperature1', 'temperature2', 'insideTemperature', 'standard',
+      'npeVoltage', 'workModel', 'energyDistribute', 'dcTemperature',
+      'invTemperature', 'pvTemperature', 'cntlTemperature',
+      'batteryTemperature', 'energyDirection1', 'energyDirection2',
+      'inverterMode', 'meterConnect', 'platformCode', 'inverterName',
+      'batteryNumber', 'ratedPower', 'ratedFrequency'
+    ]);
+  });
+
+  // inverterMesData
+  test("inverterMesData should have all expected keys", function () {
+    expect(data.inverterMesData).to.have.all.keys(['acList']);
+  });
+}
