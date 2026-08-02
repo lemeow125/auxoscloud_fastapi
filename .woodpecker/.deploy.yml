@@ -4,8 +4,7 @@ steps:
     environment:
       SSH_KEY:
         from_secret: SSH_KEY
-      REGISTRY_IMAGE_TAG:
-        from_secret: REGISTRY_IMAGE_TAG
+      REGISTRY_IMAGE_TAG: git.06222001.xyz/auxsolfastapi
       SSH_HOST: root@10.0.10.115
       PROJECT_DIRECTORY: /mnt/nvme/files/docker\ projects/auxoscloud_fastapi
       DOCKER_COMPOSE_URL: https://raw.githubusercontent.com/lemeow125/auxoscloud_fastapi/refs/heads/master/docker-compose.yml
@@ -35,6 +34,6 @@ when:
       - manual
 
 depends_on:
-  - build
+  - pre_deployment_tests
 
 skip_clone: true

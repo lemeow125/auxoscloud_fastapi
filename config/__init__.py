@@ -5,6 +5,7 @@ Common service functions and classes imported elsewhere.
 
 import os
 import sys
+import requests
 from typing import Optional
 
 from dotenv import find_dotenv, load_dotenv
@@ -97,6 +98,8 @@ class Config:
             return fake.random_number(digits=8)
         elif field_name == "AUXSOL_INVERTER_SN":
             return fake.serial_number()
+        elif field_name == "SESSION":
+            return requests.Session()
 
         # Fallback based on type hints
         if field_type is str:

@@ -11,13 +11,15 @@ steps:
         from_secret: FORGEJO_REGISTRY_USERNAME
       FORGEJO_REGISTRY_PASSWORD:
         from_secret: FORGEJO_REGISTRY_PASSWORD
-      REGISTRY_IMAGE_TAG:
-        from_secret: REGISTRY_IMAGE_TAG
+      REGISTRY_IMAGE_TAG: git.06222001.xyz/auxsolfastapi
     commands:
-      - docker buildx build -t "$REGISTRY_IMAGE_TAG" --platform linux/amd64,linux/arm64 .
       - echo "$FORGEJO_REGISTRY_PASSWORD" | docker login "$FORGEJO_REGISTRY_URL" --password-stdin -u "$FORGEJO_REGISTRY_USERNAME"
-      - docker push "$REGISTRY_IMAGE_TAG"
-      - docker image rm "$REGISTRY_IMAGE_TAG"
+      - |
+        if docker manifest inspect "$REGISTRY_IMAGE_TAG:$CI_COMMIT_SHA" > /dev/null 2>&1; then
+          echo "Image $REGISTRY_IMAGE_TAG:$CI_COMMIT_SHA already exists – skipping build."
+          exit 0
+        fi
+      - docker buildx build --push --platform linux/amd64,linux/arm64 -t "$REGISTRY_IMAGE_TAG:$CI_COMMIT_SHA" .
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       

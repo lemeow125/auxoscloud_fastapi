@@ -8,30 +8,29 @@ logger = logging.getLogger(__name__)
 class Inverter:
     """Inverter Actions"""
 
-    def __init__(self, **kwargs):
-        self.SESSION = kwargs.get("session")
-        self.BASE_URL = kwargs.get("base_url")
-        self.INVERTER_ID = kwargs.get("inverter_id")
-        self.INVERTER_SN = kwargs.get("inverter_sn")
+    def __init__(self, CONFIG):
+        self.CONFIG = CONFIG
 
     @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
     def get_inverter(self):
         url = (
-            f"{self.BASE_URL}/archive/inverter/getPlantByInverterSN/{self.INVERTER_SN}"
+            f"{self.CONFIG.AUXSOL_BASE_URL}/archive/inverter/getPlantByInverterSN/{self.CONFIG.AUXSOL_INVERTER_SN}"
         )
         try:
-            response = self.SESSION.get(url, timeout=15)
-            return response.json()
+            response = self.CONFIG.SESSION.get(url, timeout=15)
+            self._validate(response)
+            return response.json().get("data")
         except Exception as e:
             logger.error(e)
             raise
 
     @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
     def get_inverter_details(self):
-        url = f"{self.BASE_URL}/archive/plant/findPlantDetail/{self.INVERTER_SN}"
+        url = f"{self.CONFIG.AUXSOL_BASE_URL}/archive/plant/findPlantDetail/{self.CONFIG.AUXSOL_INVERTER_SN}"
         try:
-            response = self.SESSION.get(url, timeout=15)
-            return response.json()
+            response = self.CONFIG.SESSION.get(url, timeout=15)
+            self._validate(response)
+            return response.json().get("data")
         except Exception as e:
             logger.error(e)
             raise

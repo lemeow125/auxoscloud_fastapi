@@ -42,6 +42,8 @@ AUXSOL_HOME_URL=https://www.auxsolcloud.com
 
 # Server Configuration
 BACKEND_PORT=8000
+
+VERSION=latest
 ```
 
 ### 3. Running Locally

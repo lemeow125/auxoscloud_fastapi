@@ -1,0 +1,27 @@
+meta {
+  name: Get Health
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{BASE_URL}}/api/health/
+  body: json
+  auth: inherit
+}
+
+tests {
+  const data = res.getBody();
+  
+  test("should return success", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("should have status field", function () {
+    expect(data).to.have.property("status")
+  })
+
+  test("should return healthy", function () {
+    expect(data.status).to.be("healthy")
+  })
+}

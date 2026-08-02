@@ -32,15 +32,10 @@ async def get_analytics():
     """
     try:
         with AuxsolClient() as client:
-            res = client.analytics.get_analytics()
-            if res and res.get("code") == "AWX-0000":
-                data = res.get("data", {})
-                energy = data.get("energyData", {})
-
-                return {"data": energy}
-            raise Exception(f"Request Failed: {res}")
+            data = client.analytics.get_analytics()
+            return {"data": data}
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
 @cache(expire=5)
@@ -51,14 +46,10 @@ async def get_inverter_report():
     """
     try:
         with AuxsolClient() as client:
-            res = client.analytics.get_inverter_report()
-            if res and res.get("code") == "AWX-0000":
-                data = res.get("data", {})
-
-                return {"data": data}
-            raise Exception(f"Request Failed: {res}")
+            data = client.analytics.get_inverter_report()
+            return {"data": data}
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
 @cache(expire=5)
@@ -69,14 +60,10 @@ def get_inverter():
     """
     try:
         with AuxsolClient() as client:
-            res = client.inverters.get_inverter()
-            if res and res.get("code") == "AWX-0000":
-                data = res.get("data", {})
-
-                return {"data": data}
-            raise Exception(f"Request Failed: {res}")
+            data = client.inverters.get_inverter()
+            return {"data": data}
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
 @cache(expire=5)
@@ -87,14 +74,10 @@ def get_inverter_details():
     """
     try:
         with AuxsolClient() as client:
-            res = client.inverters.get_inverter()
-            if res and res.get("code") == "AWX-0000":
-                data = res.get("data", {})
-
-                return {"data": data}
-            raise Exception(f"Request Failed: {res}")
+            data = client.inverters.get_inverter()
+            return {"data": data}
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
 @cache(expire=5)
@@ -105,11 +88,7 @@ def get_battery():
     """
     try:
         with AuxsolClient() as client:
-            res = client.batteries.get_battery_details()
-            if res and res.get("code") == "AWX-0000":
-                data = res.get("data", {})
-
-                return {"data": data}
-            raise Exception(f"Request Failed: {res}")
+            data = client.batteries.get_battery_details()
+            return {"data": data}
     except Exception as e:
-        raise HTTPException({"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail={"error": str(e)})

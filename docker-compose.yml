@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: git.06222001.xyz/keannu125/auxsolfastapi:latest
+    image: git.06222001.xyz/keannu125/auxsolfastapi:${VERSION:-:latest}
     command: fastapi run --host 0.0.0.0
     restart: always
     ports:

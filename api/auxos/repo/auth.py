@@ -1,47 +1,41 @@
 import logging
-
+from . import Repo
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 logger = logging.getLogger(__name__)
 
 
-class Auth:
+class Auth(Repo):
     """Auth Actions"""
-
-    def __init__(self, **kwargs):
-        self.SESSION = kwargs.get("session")
-        self.BASE_URL = kwargs.get("base_url")
-        self.USERNAME = kwargs.get("username")
-        self.PASSWORD = kwargs.get("password")
 
     @retry(stop=stop_after_attempt(10), wait=wait_exponential(multiplier=2, max=15))
     def login(self):
         try:
-            url = f"{self.BASE_URL}/auth/login"
+            url = f"{self.CONFIG.AUXSOL_BASE_URL}/auth/login"
 
-            res = self.SESSION.post(
+            response = self.CONFIG.SESSION.post(
                 url,
                 json={
-                    "account": self.USERNAME,
-                    "password": self.PASSWORD,
+                    "account": self.CONFIG.AUXSOL_AUTH_USER,
+                    "password": self.CONFIG.AUXSOL_AUTH_PASSWORD,
                     "lang": "en-US",
                 },
                 timeout=10,
             )
 
-            res = res.json()
-            if res.get("code") == "AWX-0000":
-                token = res.get("data", {}).get("access_token")
-                if token:
-                    self.SESSION.headers.update(
-                        {
-                            "Authorization": f"Bearer {token}",
-                            "token": token,
-                            "language": "2",
-                        }
-                    )
-                else:
-                    raise Exception("Login Failed")
+            self._validate(response)
+            response = response.json()
+            token = response.get("data").get("access_token")
+            if token:
+                self.CONFIG.SESSION.headers.update(
+                    {
+                        "Authorization": f"Bearer {token}",
+                        "token": token,
+                        "language": "2",
+                    }
+                )
+            else:
+                raise Exception(f"Login Failed: {response.json}")
         except Exception as e:
             logger.error(e)
             raise
