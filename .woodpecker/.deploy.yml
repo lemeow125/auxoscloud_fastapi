@@ -6,7 +6,7 @@ steps:
         from_secret: SSH_KEY
       REGISTRY_IMAGE_TAG: git.06222001.xyz/keannu125/auxsolfastapi
       SSH_HOST: root@10.0.10.115
-      PROJECT_DIRECTORY: /mnt/nvme/files/docker\ projects/auxoscloud_fastapi
+      PROJECT_DIRECTORY: "/mnt/nvme/files/docker projects/auxoscloud_fastapi"
       DOCKER_COMPOSE_URL: https://raw.githubusercontent.com/lemeow125/auxoscloud_fastapi/refs/heads/master/docker-compose.yml
     commands:
       - apk add openssh
@@ -14,15 +14,23 @@ steps:
       - echo "$SSH_KEY" | tr -d '\r' > /root/.ssh/id_rsa
       - chmod 600 /root/.ssh/id_rsa
       - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > /root/.ssh/config
-      - ssh "$SSH_HOST" "
-        cd "$PROJECT_DIRECTORY";
-        docker-compose down;
-        wget -O docker-compose.yml "$DOCKER_COMPOSE_URL";
-        docker pull "$REGISTRY_IMAGE_TAG";
-        docker-compose up -d;
-        docker image prune -af;
-        sleep 60;
-        docker-compose logs;"
+      - |
+        ssh "$SSH_HOST" " 
+          cd \"$PROJECT_DIRECTORY\"
+          docker-compose down
+          wget -O docker-compose.yml '$DOCKER_COMPOSE_URL'
+
+          if grep -q '^VERSION=' .env; then
+            sed -i \"s|^VERSION=.*|VERSION=$CI_COMMIT_SHA|\" .env
+          else
+            echo \"VERSION=$CI_COMMIT_SHA\" >> .env
+          fi
+
+          docker-compose up -d
+          docker image prune -af
+          sleep 120
+          docker-compose logs
+        "
     volumes:
       - /var/cache/apk:/etc/apk/cache
       
