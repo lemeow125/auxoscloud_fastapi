@@ -11,7 +11,7 @@ steps:
         from_secret: FORGEJO_REGISTRY_USERNAME
       FORGEJO_REGISTRY_PASSWORD:
         from_secret: FORGEJO_REGISTRY_PASSWORD
-      REGISTRY_IMAGE_TAG: git.06222001.xyz/auxsolfastapi
+      REGISTRY_IMAGE_TAG: git.06222001.xyz/keannu125/auxsolfastapi
     commands:
       - echo "$FORGEJO_REGISTRY_PASSWORD" | docker login "$FORGEJO_REGISTRY_URL" --password-stdin -u "$FORGEJO_REGISTRY_USERNAME"
       - |

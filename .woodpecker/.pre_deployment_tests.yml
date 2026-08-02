@@ -22,7 +22,7 @@ depends_on:
 
 services:
   api:
-    image: git.06222001.xyz/keannu125/drf_template:${CI_COMMIT_SHA}
+    image: git.06222001.xyz/keannu125/auxsolfastapi:${CI_COMMIT_SHA}
     environment:
       BACKEND_AUXSOL_AUTH_USER: 
         from_secret: BACKEND_AUXSOL_AUTH_USER
