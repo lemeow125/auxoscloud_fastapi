@@ -97,7 +97,7 @@ class Config:
         elif field_name == "AUXSOL_INVERTER_ID":
             return fake.random_number(digits=8)
         elif field_name == "AUXSOL_INVERTER_SN":
-            return fake.serial_number()
+            return fake.random_letters()
         elif field_name == "SESSION":
             return requests.Session()
 
