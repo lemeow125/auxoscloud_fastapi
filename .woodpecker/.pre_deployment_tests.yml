@@ -4,7 +4,7 @@ steps:
     commands:
       - npm install -g @usebruno/cli --cache /tmp/.npm --prefer-offline
       - apk add curl
-      - curl --retry 60 --retry-connrefused --retry-delay 5 --fail --no-progress-meter http://api:8000/api/ >/dev/null
+      - curl --retry 60 --retry-connrefused --retry-delay 5 --fail --no-progress-meter http://api:8000/ >/dev/null
       - cd .bruno
       - bru run --env docker
     volumes:
