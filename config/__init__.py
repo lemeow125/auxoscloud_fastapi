@@ -5,9 +5,9 @@ Common service functions and classes imported elsewhere.
 
 import os
 import sys
-import requests
 from typing import Optional
 
+import requests
 from dotenv import find_dotenv, load_dotenv
 from faker import Faker
 from pydantic.fields import FieldInfo

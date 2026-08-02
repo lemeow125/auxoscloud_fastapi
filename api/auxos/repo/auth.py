@@ -1,6 +1,8 @@
 import logging
-from . import Repo
+
 from tenacity import retry, stop_after_attempt, wait_exponential
+
+from . import Repo
 
 logger = logging.getLogger(__name__)
 

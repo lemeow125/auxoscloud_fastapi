@@ -1,7 +1,9 @@
 __all__ = ["Auth", "Analytics", "Inverter"]
 
+
 class Repo:
     """Base repo"""
+
     def __init__(self, CONFIG):
         self.CONFIG = CONFIG
 

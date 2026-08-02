@@ -4,6 +4,7 @@ from api.auxos.repo.battery import Battery
 from api.auxos.repo.inverter import Inverter
 from config import Config
 
+
 class AuxsolClient:
     def __init__(self):
         self.CONFIG = Config().get_config()

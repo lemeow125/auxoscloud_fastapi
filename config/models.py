@@ -2,14 +2,15 @@
 Common model schemas
 """
 
-from requests import Session
 from pydantic import BaseModel, Field, StrictStr, model_validator
+from requests import Session
 
 
 class Config(BaseModel):
     """
     Pydantic Configuration model for FastAPI
     """
+
     model_config = {"arbitrary_types_allowed": True}
 
     AUXSOL_BASE_URL: StrictStr = Field(
