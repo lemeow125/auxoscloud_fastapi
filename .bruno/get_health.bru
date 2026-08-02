@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{BASE_URL}}/
+  url: {{BASE_URL}}
   body: json
   auth: inherit
 }
@@ -22,6 +22,6 @@ tests {
   })
 
   test("should return healthy", function () {
-    expect(data.status).to.be("healthy")
+    expect(data.status).to.equal("healthy")
   })
 }
