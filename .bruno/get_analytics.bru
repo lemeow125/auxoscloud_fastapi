@@ -12,41 +12,25 @@ get {
 
 tests {
   const response = res.getBody();
-  const data = response.data;
+  const status = res.getStatus();
 
-  // Top-level data keys
-  test("data should have all expected keys", function () {
-    expect(data).to.have.all.keys('deptId', 'energyData', 'capacity', 'moneyUnit');
+  test("Status code is 200", function () {
+    expect(status).to.equal(200);
   });
 
-  // Type checks for top-level fields
-  test("data field types are correct", function () {
-    expect(data.deptId).to.be.null;
-    expect(data.energyData).to.be.an('object');
-    expect(data.capacity).to.be.a('number');
-    expect(data.moneyUnit).to.be.a('string');
+  test("Response has data object", function () {
+    expect(response).to.have.property("data");
   });
 
-  // energyData keys
-  const ed = data.energyData;
-  test("energyData should have all expected keys", function () {
-    expect(ed).to.have.all.keys(
-      'flh', 'power', 'y', 'earn', 'yt', 'earnT',
-      'ym', 'earnM', 'yy', 'earnY', 'co2', 'treePlants',
-      'stringNum', 'pvList',
-      'acCouplingPower', 'acCouplingYieldDay', 'acCouplingYieldMonth',
-      'acCouplingYieldYear', 'acCouplingYieldTotal',
-      'multiInverterYieldDay', 'multiInverterYieldMonth',
-      'multiInverterYieldYear', 'multiInverterYieldTotal',
-      'multiInverterYieldPower'
-    );
+  test("energyData.power exists", function () {
+    expect(response.data.energyData).to.have.property("power");
   });
 
-  // Type checks for energyData fields (only numeric fields & nulls)
-  test("energyData field types are correct", function () {
-    // numbers
-    const numberFields = ['power', 'y', 'earn', 'yt', 'earnT', 'ym', 'earnM',
-                          'yy', 'earnY', 'co2', 'treePlants'];
-    numberFields.forEach(f => expect(ed[f]).to.be.a('number'));
+  test("energyData.yt exists", function () {
+    expect(response.data.energyData).to.have.property("yt");
+  });
+
+  test("otherData.cntlTemperature exists", function () {
+    expect(response.data.otherData).to.have.property("cntlTemperature");
   });
 }

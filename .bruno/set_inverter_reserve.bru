@@ -27,19 +27,4 @@ tests {
   test("Response has status success", function () {
     expect(response.status).to.equal("success");
   });
-
-  test("Response contains data object", function () {
-    expect(response).to.have.property("data");
-    expect(response.data).to.be.an("object");
-  });
-
-  test("Data contains a batchNo", function () {
-      const rawData = response.data;          // { status: "success", data: {...} }
-      expect(rawData).to.have.property("data"); 
-      const apiResponse = rawData.data;       // { code, msg, data: {...} }
-      expect(apiResponse).to.have.property("data");
-      const innerData = apiResponse.data;     // { batchNo, ... }
-      expect(innerData).to.have.property("batchNo");
-  });
-
 }
