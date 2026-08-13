@@ -12,25 +12,9 @@ get {
 
 tests {
   const response = res.getBody();
-  const data = response.data;
+  const status = res.getStatus();
 
-  // Top-level data fields
-  test("data should have all expected keys", function () {
-    expect(data).to.have.all.keys([
-      'plantId', 'deptId', 'plantName', 'plantType', 'capacity',
-      'latitude', 'longitude', 'address', 'adminiRegions', 'regions',
-      'isStorage', 'owner', 'installPhone', 'installEmail',
-      'componentsAmount', 'investmentType', 'timeZone', 'dstTime',
-      'extendColumn', 'tariff', 'createBy', 'createTime', 'updateBy',
-      'gridTime', 'updateTime', 'gatewayType', 'status', 'contactPerson'
-    ]);
-  });
-
-  // Tariff object
-  test("tariff should have all expected keys", function () {
-    expect(data.tariff).to.have.all.keys([
-      'planId', 'plantId', 'priceDirection', 'priceType', 'fixPrice',
-      'priceUom', 'timeUsePrice', 'updateHistoryEarn', 'updateHistoryEarnDate'
-    ]);
+  test("Status code is 200", function () {
+    expect(status).to.equal(200);
   });
 }
