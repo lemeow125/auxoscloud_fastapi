@@ -17,4 +17,8 @@ tests {
   test("Status code is 200", function () {
     expect(status).to.equal(200);
   });
+
+  test("otherData.cntlTemperature exists", function () {
+    expect(response.data.otherData).to.have.property("cntlTemperature");
+  });
 }
