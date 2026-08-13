@@ -17,8 +17,8 @@ steps:
       - |
         ssh "$SSH_HOST" " 
           cd \"$PROJECT_DIRECTORY\"
-          docker-compose down
-          wget -O docker-compose.yml '$DOCKER_COMPOSE_URL'
+          docker compose down
+          wget -O docker compose.yml '$DOCKER_COMPOSE_URL'
 
           if grep -q '^VERSION=' .env; then
             sed -i \"s|^VERSION=.*|VERSION=$CI_COMMIT_SHA|\" .env
@@ -26,10 +26,10 @@ steps:
             echo \"VERSION=$CI_COMMIT_SHA\" >> .env
           fi
 
-          docker-compose up -d
+          docker compose up -d
           docker image prune -af
           sleep 120
-          docker-compose logs
+          docker compose logs
         "
     volumes:
       - /var/cache/apk:/etc/apk/cache
