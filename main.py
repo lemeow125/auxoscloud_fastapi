@@ -1,12 +1,10 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.memcached import MemcachedBackend
 from fastapi_cache.decorator import cache
-from pydantic import BaseModel
 
 from api.auxos import AuxsolClient
 
