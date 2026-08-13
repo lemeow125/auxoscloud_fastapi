@@ -95,6 +95,7 @@ async def get_battery():
     except Exception as e:
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
+
 @app.post("/api/inverter/set-battery-reserve-soc")
 async def set_battery_reserve_soc(request: Request):
     try:

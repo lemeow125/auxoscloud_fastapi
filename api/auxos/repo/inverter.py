@@ -1,6 +1,6 @@
 import logging
 import uuid
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 from tenacity import retry, stop_after_attempt, wait_fixed
 
@@ -65,7 +65,9 @@ class Inverter(Repo):
     def set_battery_reserve_soc(self, value: int):
         """Set Battery Reserve SOC using live metadata."""
         # Fetch the definition template (without a live value)
-        param_def = self.get_parameter_metadata("Battery Reserve SOC", param_type="readset")
+        param_def = self.get_parameter_metadata(
+            "Battery Reserve SOC", param_type="readset"
+        )
 
         param = param_def.copy()
         param["dataItemValue"] = str(value)
