@@ -33,13 +33,13 @@ tests {
     expect(response.data).to.be.an("object");
   });
 
-  // Optionally, we can verify the batchNo is present (sent by inverter API)
   test("Data contains a batchNo", function () {
-    expect(response.data).to.have.property("data");
-    const innerData = response.data.data;
-    if (innerData) {
+      const rawData = response.data;          // { status: "success", data: {...} }
+      expect(rawData).to.have.property("data"); 
+      const apiResponse = rawData.data;       // { code, msg, data: {...} }
+      expect(apiResponse).to.have.property("data");
+      const innerData = apiResponse.data;     // { batchNo, ... }
       expect(innerData).to.have.property("batchNo");
-    }
   });
 
 }
