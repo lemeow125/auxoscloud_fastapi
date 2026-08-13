@@ -1,0 +1,45 @@
+meta {
+  name: Set Battery Reserve SOC
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASE_URL}}/api/inverter/set-battery-reserve-soc
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "value": 25
+  }
+}
+
+tests {
+  const response = res.getBody();
+  const status = res.getStatus();
+
+  test("Status code is 200", function () {
+    expect(status).to.equal(200);
+  });
+
+  test("Response has status success", function () {
+    expect(response.status).to.equal("success");
+  });
+
+  test("Response contains data object", function () {
+    expect(response).to.have.property("data");
+    expect(response.data).to.be.an("object");
+  });
+
+  // Optionally, we can verify the batchNo is present (sent by inverter API)
+  test("Data contains a batchNo", function () {
+    expect(response.data).to.have.property("data");
+    const innerData = response.data.data;
+    if (innerData) {
+      expect(innerData).to.have.property("batchNo");
+    }
+  });
+
+}

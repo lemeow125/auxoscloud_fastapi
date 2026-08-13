@@ -1,10 +1,12 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.memcached import MemcachedBackend
 from fastapi_cache.decorator import cache
+from pydantic import BaseModel
 
 from api.auxos import AuxsolClient
 
@@ -54,7 +56,7 @@ async def get_inverter_report():
 
 @cache(expire=5)
 @app.get("/api/inverter")
-def get_inverter():
+async def get_inverter():
     """
     Endpoint to get latest info on inverter
     """
@@ -68,7 +70,7 @@ def get_inverter():
 
 @cache(expire=5)
 @app.get("/api/inverter/detail")
-def get_inverter_details():
+async def get_inverter_details():
     """
     Endpoint to get latest details on inverter
     """
@@ -82,7 +84,7 @@ def get_inverter_details():
 
 @cache(expire=5)
 @app.get("/api/battery")
-def get_battery():
+async def get_battery():
     """
     Endpoint to get latest info on batteries connected to inverter
     """
@@ -92,3 +94,24 @@ def get_battery():
             return {"data": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail={"error": str(e)})
+
+@app.post("/api/inverter/set-battery-reserve-soc")
+async def set_battery_reserve_soc(request: Request):
+    try:
+        body = await request.json()
+        value = body.get("value")
+        if value is None:
+            raise HTTPException(400, detail="Missing 'value' field")
+        if not isinstance(value, int) or not (10 <= value <= 100):
+            raise HTTPException(
+                400, detail="Value must be an integer between 10 and 100"
+            )
+
+        with AuxsolClient() as client:
+            result = client.inverters.set_battery_reserve_soc(value)
+            return {"status": "success", "data": result}
+
+    except ValueError as e:
+        raise HTTPException(400, detail={"error": str(e)})
+    except Exception as e:
+        raise HTTPException(500, detail={"error": str(e)})
