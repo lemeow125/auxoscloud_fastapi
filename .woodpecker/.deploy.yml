@@ -7,7 +7,7 @@ steps:
       REGISTRY_IMAGE_TAG: git.06222001.xyz/keannu125/auxsolfastapi
       SSH_HOST: root@10.0.10.222
       PROJECT_DIRECTORY: "/mnt/sdb1/files/docker projects/auxoscloud_fastapi"
-      DOCKER_COMPOSE_URL: "https://raw.githubusercontent.com/lemeow125/auxoscloud_fastapi/$CI_COMMIT_SHA/docker-compose.yml"
+      RAW_BASE_URL: "https://raw.githubusercontent.com/lemeow125/auxoscloud_fastapi"
     commands:
       - apk add openssh
       - mkdir -p /root/.ssh/
@@ -15,10 +15,10 @@ steps:
       - chmod 600 /root/.ssh/id_rsa
       - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > /root/.ssh/config
       - |
-        ssh "$SSH_HOST" " 
+        ssh "$SSH_HOST" "
           cd \"$PROJECT_DIRECTORY\"
           docker compose down
-          wget -O docker-compose.yml '$DOCKER_COMPOSE_URL'
+          wget -O docker-compose.yml '$RAW_BASE_URL/$CI_COMMIT_SHA/docker-compose.yml'
 
           if grep -q '^VERSION=' .env; then
             sed -i \"s|^VERSION=.*|VERSION=$CI_COMMIT_SHA|\" .env
