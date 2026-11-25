@@ -9,7 +9,6 @@ from typing import Optional
 
 import requests
 from dotenv import find_dotenv, load_dotenv
-from faker import Faker
 from pydantic.fields import FieldInfo
 
 from .models import Config as ConfigModel
@@ -83,6 +82,7 @@ class Config:
         Returns:
             any: Generated placeholder data.
         """
+        from faker import Faker
         field_type = field_info.annotation
 
         # Handle specific field names
@@ -97,7 +97,7 @@ class Config:
         elif field_name == "AUXSOL_INVERTER_ID":
             return fake.random_number(digits=8)
         elif field_name == "AUXSOL_INVERTER_SN":
-            return fake.random_letters()
+            return str(fake.random_letters())
         elif field_name == "SESSION":
             return requests.Session()
 
