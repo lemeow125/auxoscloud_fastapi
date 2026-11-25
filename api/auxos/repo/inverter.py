@@ -23,6 +23,7 @@ class Inverter(Repo):
             logger.error(e)
             raise
 
+    # Broken right now Auxsol-side
     @retry(stop=stop_after_attempt(10), wait=wait_fixed(1), reraise=True)
     def get_inverter_details(self):
         url = f"{self.CONFIG.AUXSOL_BASE_URL}/archive/plant/findPlantDetail/{self.CONFIG.AUXSOL_INVERTER_SN}"
