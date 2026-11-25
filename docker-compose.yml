@@ -2,7 +2,7 @@ services:
   # API
   api:
     env_file: .env
-    image: git.06222001.xyz/keannu125/auxsolfastapi:${VERSION:-:latest}
+    image: git.06222001.xyz/keannu125/auxsolfastapi:${VERSION:-latest}
     command: fastapi run --host 0.0.0.0
     restart: always
     ports:
