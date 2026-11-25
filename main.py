@@ -48,7 +48,7 @@ async def get_inverter_report():
         with AuxsolClient() as client:
             data = client.analytics.get_inverter_report()
             return {"data": data}
-    except Exception as e:
+    except Exception as e:1
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
@@ -74,7 +74,7 @@ async def get_inverter_details():
     """
     try:
         with AuxsolClient() as client:
-            data = client.inverters.get_inverter()
+            data = client.inverters.get_inverter_details()
             return {"data": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail={"error": str(e)})
