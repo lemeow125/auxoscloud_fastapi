@@ -13,8 +13,6 @@ from pydantic.fields import FieldInfo
 
 from .models import Config as ConfigModel
 
-fake = Faker()
-
 
 class Config:
     """
@@ -83,6 +81,8 @@ class Config:
             any: Generated placeholder data.
         """
         from faker import Faker
+
+        fake = Faker()
         field_type = field_info.annotation
 
         # Handle specific field names
