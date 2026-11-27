@@ -3,15 +3,15 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi_cache import FastAPICache
-from fastapi_cache.backends.memcached import MemcachedBackend
+from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 
 from api.auxos import AuxsolClient
 
-
+cache_ttl = 30
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-    FastAPICache.init(MemcachedBackend, prefix="fastapi-cache")
+    FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
     yield
 
 
@@ -24,7 +24,7 @@ async def status():
     return {"status": "healthy"}
 
 
-@cache(expire=5)
+@cache(expire=cache_ttl)
 @app.get("/api/analytics/")
 async def get_analytics():
     """
@@ -38,7 +38,7 @@ async def get_analytics():
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
-@cache(expire=5)
+@cache(expire=cache_ttl)
 @app.get("/api/analytics/inverter")
 async def get_inverter_report():
     """
@@ -52,7 +52,7 @@ async def get_inverter_report():
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
-@cache(expire=5)
+@cache(expire=cache_ttl)
 @app.get("/api/inverter")
 async def get_inverter():
     """
@@ -66,7 +66,7 @@ async def get_inverter():
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
-@cache(expire=5)
+@cache(expire=cache_ttl)
 @app.get("/api/inverter/detail")
 async def get_inverter_details():
     """
@@ -80,7 +80,7 @@ async def get_inverter_details():
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
-@cache(expire=5)
+@cache(expire=cache_ttl)
 @app.get("/api/battery")
 async def get_battery():
     """
