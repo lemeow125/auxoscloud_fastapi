@@ -24,8 +24,8 @@ async def status():
     return {"status": "healthy"}
 
 
-@cache(expire=cache_ttl)
 @app.get("/api/analytics/")
+@cache(expire=cache_ttl)
 async def get_analytics():
     """
     Endpoint to get latest analytics data for inverter
@@ -38,8 +38,8 @@ async def get_analytics():
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
-@cache(expire=cache_ttl)
 @app.get("/api/analytics/inverter")
+@cache(expire=cache_ttl)
 async def get_inverter_report():
     """
     Endpoint to get latest analytics report on inverter
@@ -52,8 +52,8 @@ async def get_inverter_report():
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
-@cache(expire=cache_ttl)
 @app.get("/api/inverter")
+@cache(expire=cache_ttl)
 async def get_inverter():
     """
     Endpoint to get latest info on inverter
@@ -66,8 +66,8 @@ async def get_inverter():
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
-@cache(expire=cache_ttl)
 @app.get("/api/inverter/detail")
+@cache(expire=cache_ttl)
 async def get_inverter_details():
     """
     Endpoint to get latest details on inverter
@@ -80,8 +80,8 @@ async def get_inverter_details():
         raise HTTPException(status_code=500, detail={"error": str(e)})
 
 
-@cache(expire=cache_ttl)
 @app.get("/api/battery")
+@cache(expire=cache_ttl)
 async def get_battery():
     """
     Endpoint to get latest info on batteries connected to inverter
