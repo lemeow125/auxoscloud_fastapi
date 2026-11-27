@@ -97,7 +97,7 @@ def get_battery():
 @app.post("/api/inverter/set-battery-reserve-soc")
 def set_battery_reserve_soc(request: Request):
     try:
-        body = await request.json()
+        body = request.json()
         value = body.get("value")
         if value is None:
             raise HTTPException(400, detail="Missing 'value' field")
