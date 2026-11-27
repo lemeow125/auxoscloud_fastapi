@@ -1,7 +1,7 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Body, FastAPI, HTTPException
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
@@ -95,22 +95,17 @@ def get_battery():
 
 
 @app.post("/api/inverter/set-battery-reserve-soc")
-def set_battery_reserve_soc(request: Request):
-    try:
-        body = request.json()
-        value = body.get("value")
-        if value is None:
-            raise HTTPException(400, detail="Missing 'value' field")
-        if not isinstance(value, int) or not (10 <= value <= 100):
-            raise HTTPException(
-                400, detail="Value must be an integer between 10 and 100"
-            )
+def set_battery_reserve_soc(body: dict | None = Body(default=None)):
+    value = (body or {}).get("value")
+    if value is None:
+        raise HTTPException(400, detail="Missing 'value' field")
+    if not isinstance(value, int) or not (10 <= value <= 100):
+        raise HTTPException(400, detail="Value must be an integer between 10 and 100")
 
+    try:
         with AuxsolClient() as client:
             result = client.inverters.set_battery_reserve_soc(value)
             return {"status": "success", "data": result}
-
-    except ValueError as e:
-        raise HTTPException(400, detail={"error": str(e)})
     except Exception as e:
         raise HTTPException(500, detail={"error": str(e)})
+
